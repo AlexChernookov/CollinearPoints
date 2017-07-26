@@ -1,7 +1,6 @@
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 
-import java.security.cert.PolicyNode;
 import java.util.Comparator;
 
 public class Point implements Comparable<Point> {
@@ -55,9 +54,12 @@ public class Point implements Comparable<Point> {
      * argument point
      */
     public int compareTo(Point that) {
-        if (this.y < that.y || this.y == that.y && this.x < that.x) return -1;
+        if (that == null) {
+            throw new IllegalArgumentException();
+        }
         if (this.x == that.x && this.y == that.y) return 0;
-        return +1;
+        if (this.y < that.y || this.y == that.y && this.x < that.x) return -1;
+        return 1;
     }
 
     /**
@@ -72,7 +74,18 @@ public class Point implements Comparable<Point> {
      * @return the slope between this point and the specified point
      */
     public double slopeTo(Point that) {
-        return 0;
+        double numerator = that.y - this.y;
+        double denominator = that.x - that.x;
+        if (numerator == 0 & denominator == 0) {
+            return Double.NEGATIVE_INFINITY;
+        }
+        if (numerator == 0) {
+            return 0;
+        }
+        if (denominator == 0) {
+            return Double.POSITIVE_INFINITY;
+        }
+        return numerator / denominator;
     }
 
 
@@ -83,13 +96,22 @@ public class Point implements Comparable<Point> {
      * @return the Comparator that defines this ordering on points
      */
     public Comparator<Point> slopeOrder() {
-        return null;
+        return new Comparator<Point>() {
+
+            @Override
+            public int compare(Point p1, Point p2) {
+                double p1Slope = slopeTo(p1);
+                double p2Slope = slopeTo(p2);
+
+                return Double.compare(p1Slope, p2Slope);
+            }
+        };
     }
 
     public static void main(String[] args) {
-        Point p = new Point(0, 0);
-        Point s = new Point(0, 0);
+        Point p = new Point(1, 1);
+        Point s = new Point(1, 2);
 
-        StdOut.print(p.compareTo(s));
+        StdOut.print(p.slopeTo(s));
     }
 }
