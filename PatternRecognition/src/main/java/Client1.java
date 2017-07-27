@@ -12,8 +12,8 @@ public class Client1 {
 
     public static void main(String[] args) throws FileNotFoundException {
         final String sl = File.separator;
-        final String RESOURCES_PATH = System.getProperty("user.dir") + sl + "PatternRecognition" + sl +"src" + sl + "main" + sl + "resources";
-        String file = RESOURCES_PATH + sl+ "input6.txt";
+        final String RESOURCES_PATH = System.getProperty("user.dir") + sl +"src" + sl + "main" + sl + "resources";
+        String file = RESOURCES_PATH + sl+ "input8.txt";
 
         Scanner scanner =  new Scanner(new File(file));
         int n = scanner.nextInt();
