@@ -1,5 +1,4 @@
 import edu.princeton.cs.algs4.StdDraw;
-import edu.princeton.cs.algs4.StdOut;
 
 import java.util.Comparator;
 
@@ -54,9 +53,7 @@ public class Point implements Comparable<Point> {
      * argument point
      */
     public int compareTo(Point that) {
-        if (that == null) {
-            throw new IllegalArgumentException();
-        }
+        validateObject(that);
         if (this.x == that.x && this.y == that.y) return 0;
         if (this.y < that.y || this.y == that.y && this.x < that.x) return -1;
         return 1;
@@ -74,6 +71,7 @@ public class Point implements Comparable<Point> {
      * @return the slope between this point and the specified point
      */
     public double slopeTo(Point that) {
+        validateObject(that);
         if (y == that.y) {
             if (x == that.x) {
                 return Double.NEGATIVE_INFINITY;
@@ -84,7 +82,6 @@ public class Point implements Comparable<Point> {
         }
         return ((double) (that.y - y)) / (that.x - x);
     }
-
 
     /**
      * Compares two points by the slope they make with this point.
@@ -97,6 +94,8 @@ public class Point implements Comparable<Point> {
 
             @Override
             public int compare(Point p1, Point p2) {
+                validateObject(p1);
+                validateObject(p2);
                 double p1Slope = slopeTo(p1);
                 double p2Slope = slopeTo(p2);
                 return Double.compare(p1Slope, p2Slope);
@@ -104,10 +103,13 @@ public class Point implements Comparable<Point> {
         };
     }
 
-    public static void main(String[] args) {
-        Point p = new Point(1, 1);
-        Point s = new Point(1, 2);
+    private void validateObject(Point p) {
+        if (p == null) throw new java.lang.NullPointerException();
+    }
 
-        StdOut.print(p.slopeTo(s));
+    public static void main(String[] args) {
+        Point p = new Point(1, 2);
+        Point s = new Point(2, 2);
+        p.slopeTo(s);
     }
 }
